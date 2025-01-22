@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="shoppingcart.css" />
+    <script defer src="shoppingcart.js"></script>
+    <title>Shopping Cart</title>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Columna Izquierda: Formulario y Productos -->
+      <div class="left-section">
+        <!-- Formulario para añadir productos -->
+        <div>
+          <h2>Gestión de Productos</h2>
+          <form class="product-form" id="productForm">
+            <input type="text" id="title" placeholder="Título" required>
+            <input type="number" id="price" placeholder="Precio" required>
+            <input type="number" id="discount" placeholder="Descuento (%)" min="5" max="70" required>
+            <input type="text" id="image" placeholder="URL de la imagen" required>
+            <button type="submit">Añadir Producto</button>
+          </form>
+        </div>
+        <!-- Botones de ordenamiento -->
+        <div class="sort-buttons">
+          <button onclick="sortProductsByName()">Ordenar por Nombre</button>
+          <button onclick="sortProductsByPrice()">Ordenar por Precio</button>
+        </div>
+        <!-- Lista de productos -->
+        <div id="productList"></div>
+      </div>
+    
+      <!-- Columna Derecha: Carrito -->
+      <div class="cart">
+        <h2>Carrito de Compras</h2>
+        <div id="cartItems"></div>
+        <div class="cart-summary" id="cartSummary"></div>
+      </div>
+    </div>
+  </body>
+</html>
