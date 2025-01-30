@@ -33,7 +33,7 @@ function renderCards() {
         <h3>${product.name}</h3>
         <p class="price">Precio: $${product.price.toFixed(2)}</p>
         <p class="discount">Con descuento: $${product.finalPrice.toFixed(2)} (${product.discount}% OFF)</p>
-        <button onclick="addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')})">Añadir al carrito</button>
+        <button id="boton-addCart" onclick="addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')})">Añadir al carrito</button>
       </div>
     `;
 
@@ -80,7 +80,7 @@ function renderCart() {
     discount += productDiscount;
 
     item.innerHTML = `
-      <p>${product.name} (${product.quantity} pza.)</p>
+      <p >${product.name} <span id="contador-items">(${product.quantity} pza.)</span></p>
       <p>$${(product.finalPrice * product.quantity).toFixed(2)}</p>
       <button onclick="removeFromCart('${product.code}')">Eliminar</button>
     `;

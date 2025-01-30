@@ -513,7 +513,9 @@ header {
     }
   }
 }
-
+body{
+  position: relative;
+}
 .footer {
   position: relative;
   width: 100%;
@@ -524,7 +526,7 @@ header {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  bottom: 0;
+  min-height: 20vh;
 
   .social-icon {
     display: flex;
@@ -643,6 +645,9 @@ header {
   display: flex;
   gap: 20px;
   padding: 20px;
+  position: absolute;
+  bottom: 0;
+  flex: 1;
   .form-container {
     width: 30%;
     background: #fff;

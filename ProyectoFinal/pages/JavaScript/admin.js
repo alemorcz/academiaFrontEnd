@@ -3,9 +3,33 @@ const productTable = document.querySelector('#productTable tbody');
 const sortByNameBtn = document.getElementById('sortByName');
 const sortByPriceBtn = document.getElementById('sortByPrice');
 
+async function loadProductsFromJSON() {
+  if (!localStorage.getItem('./products')) {
+    try {
+      const response = await fetch('./productos.json'); // Carga el archivo JSON
+      const products = await response.json();
+
+      // Agregar el precio final calculado
+      const productsWithFinalPrice = products.map(product => ({
+        ...product,
+        finalPrice: product.price - (product.price * (product.discount || 0)) / 100
+      }));
+
+      // Guardar en localStorage
+      saveProducts(productsWithFinalPrice);
+    } catch (error) {
+      console.error("Error al cargar productos desde JSON:", error);
+    }
+  }
+}
+
+// Cargar productos del JSON antes de renderizar la tabla
+loadProductsFromJSON().then(renderTable);
+
 // Función para obtener productos del localStorage
 function getProducts() {
     const products = localStorage.getItem('products');
+    console.log("Productos LocalStorage",products);
     return products
       ? JSON.parse(products).map(product => ({
           ...product,
@@ -115,6 +139,7 @@ sortByPriceBtn.addEventListener('click', () => {
   saveProducts(products);
   renderTable();
 });
+
 
 // Renderizar tabla al cargar la página
 renderTable();
