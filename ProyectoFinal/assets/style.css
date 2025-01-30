@@ -466,10 +466,11 @@ header img {
 
 body {
   position: relative;
+  min-height: 100vh;
 }
 
 .footer {
-  position: relative;
+  position: absolute;
   width: 100%;
   background: #a75858;
   min-height: 100px;
@@ -478,7 +479,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  min-height: 20vh;
+  bottom: 0;
 }
 .footer .social-icon {
   display: flex;
@@ -578,9 +579,6 @@ body {
   display: flex;
   gap: 20px;
   padding: 20px;
-  position: absolute;
-  bottom: 0;
-  flex: 1;
 }
 .container-admin .form-container {
   width: 30%;

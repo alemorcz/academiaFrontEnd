@@ -80,9 +80,9 @@ function renderCart() {
     discount += productDiscount;
 
     item.innerHTML = `
-      <p >${product.name} <span id="contador-items">(${product.quantity} pza.)</span></p>
+      <p >${product.name} (<span id="contador-items">${product.quantity}</span> pza)</p>
       <p>$${(product.finalPrice * product.quantity).toFixed(2)}</p>
-      <button onclick="removeFromCart('${product.code}')">Eliminar</button>
+      <button id="botonEliminar" onclick="removeFromCart('${product.code}')">Eliminar</button>
     `;
 
     cartItems.appendChild(item);
