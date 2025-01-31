@@ -7,7 +7,7 @@ describe("Agregar productos al carrito de compras", () =>{
 
     it("Agregar un producto al carrito de compras", async () => {
         await shoppingCart.get("http://127.0.0.1:3000/ProyectoFinal/pages/HTML/admin.html")
-        //await shoppingCart.wait(until.elementLocated(By.id('list-products')), 10000); 
+        
 
         shoppingCart.get("http://127.0.0.1:3000/ProyectoFinal/pages/HTML/tienda.html");
         const addCartButton = await shoppingCart.findElement(By.id('boton-addCart'));
@@ -20,7 +20,7 @@ describe("Agregar productos al carrito de compras", () =>{
 
     it("Agregar 2 productos al carrito de compras", async () => {
         await shoppingCart.get("http://127.0.0.1:3000/ProyectoFinal/pages/HTML/admin.html")
-        //await shoppingCart.wait(until.elementLocated(By.id('list-products')), 10000); 
+         
 
         shoppingCart.get("http://127.0.0.1:3000/ProyectoFinal/pages/HTML/tienda.html");
         const addCartButton = await shoppingCart.findElement(By.id('boton-addCart'));

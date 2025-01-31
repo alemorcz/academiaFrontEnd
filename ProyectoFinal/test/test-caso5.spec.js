@@ -1,40 +1,52 @@
-const { Builder, By, until } = require("selenium-webdriver");
+const { Builder, Browser, By, until } = require("selenium-webdriver");
+const assert = require("assert");
 
-(async function testCheckboxRequerido() {
-    let driver = await new Builder().forBrowser("chrome").build();
+describe('Agregar un producto y verificar que aparece en la lista', function () {
+    this.timeout(30000); // Extiende el tiempo de espera máximo
 
-    try {
-        // Abrir la página del formulario (ajusta la URL)
-        await driver.get("http://localhost:5500/pages/contacto.html");
+    let driver;
 
-        // Llenar los campos con datos válidos
-        await driver.findElement(By.id("nombre")).sendKeys("Alejandra Moreno");
-        await driver.findElement(By.id("email")).sendKeys("ale.moreno@gmail.com");
-        await driver.findElement(By.css("textarea")).sendKeys("Hola, quiero más información!");
+    before(async function () {
+        driver = await new Builder().forBrowser(Browser.CHROME).build();
+        await driver.get('http://127.0.0.1:3000/ProyectoFinal/pages/HTML/admin.html'); // Cambia por la URL donde tienes tu admin.html
+    });
 
-        // *NO* marcar el checkbox
-
-        // Hacer clic en el botón de enviar
-        await driver.findElement(By.css("button[type='submit']")).click();
-
-        // Esperar a que aparezca el mensaje de error
-        let mensajeError = await driver.wait(
-            until.elementLocated(By.xpath("//*[contains(text(),'Debes aceptar los términos y condiciones')]")),
-            5000
-        );
-
-        // Verificar si el mensaje es visible
-        let visible = await mensajeError.isDisplayed();
-        if (visible) {
-            console.log("✅ Test exitoso: Se mostró el mensaje de error correctamente.");
-        } else {
-            console.log("❌ Test fallido: No se encontró el mensaje de error.");
-        }
-
-    } catch (error) {
-        console.error("❌ Error en la prueba:", error);
-    } finally {
-        // Cerrar el navegador
+    after(async function () {
         await driver.quit();
-    }
-})();
+    });
+
+    it('Debería agregar un producto y mostrarlo en la tabla', async function () {
+        // Datos del producto de prueba
+        const producto = {
+            name: 'Producto Chido Grupo Frontera',
+            code: 'JS123',
+            description: 'Un kit super padre incluye de todo',
+            price: '500',
+            discount: '10',
+            image: 'https://cooglife.com/wp-content/uploads/2024/08/GrupoFrontera-23.jpg'
+        };
+
+        // Llenar formulario
+        await driver.wait(until.elementLocated(By.id('productName')), 5000).sendKeys(producto.name);
+        await driver.findElement(By.id('productCode')).sendKeys(producto.code);
+        await driver.findElement(By.id('productDescription')).sendKeys(producto.description);
+        await driver.findElement(By.id('productPrice')).sendKeys(producto.price);
+        await driver.findElement(By.id('productDiscount')).sendKeys(producto.discount);
+        await driver.findElement(By.id('productImage')).sendKeys(producto.image);
+
+        // Enviar formulario
+        await driver.findElement(By.css('button[type="submit"]')).click();
+
+        // Esperar a que el producto aparezca en la tabla
+        const table = await driver.wait(until.elementLocated(By.id('productTable')), 10000);
+
+        // Obtener el texto de la tabla
+        const tableText = await table.getText();
+
+        // Verificar que el producto está en la tabla
+        assert(tableText.includes(producto.name), `El nombre del producto "${producto.name}" no se encontró en la tabla.`);
+        assert(tableText.includes(producto.code), `El código del producto "${producto.code}" no se encontró en la tabla.`);
+        assert(tableText.includes(producto.description), `La descripción del producto "${producto.description}" no se encontró en la tabla.`);
+        assert(tableText.includes(`$${producto.price}`), `El precio del producto "$${producto.price}" no se encontró en la tabla.`);
+    });
+});

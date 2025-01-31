@@ -24,11 +24,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (!isValid) {
-            event.preventDefault(); // Evitar el envío del formulario si hay errores
+            event.preventDefault();
         } else {
-            event.preventDefault(); // Evitar el envío real para mostrar la alerta
+            event.preventDefault();
             alert("Recibimos tu mensaje, pronto te contactaremos!");
-            form.reset(); // Limpiar el formulario después de enviar correctamente
+            form.reset(); 
         }
     });
 

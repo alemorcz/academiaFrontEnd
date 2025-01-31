@@ -1,38 +1,54 @@
-const { Builder, Browser, By, until } = require('selenium-webdriver');
-const assert = require('assert');
+const assert = require("assert");
+const { Builder, Browser, By, until } = require("selenium-webdriver");
 
-describe('Validación de campos obligatorios', () => {
-  let driver;
+describe("Verificar que el formulario se envía correctamente", function () {
+    let driver;
 
-  before(async () => {
-    driver = await new Builder().forBrowser(Browser.CHROME).build();
-  });
+    before(async function () {
+        driver = await new Builder().forBrowser(Browser.CHROME).build();
+    });
 
-  after(async () => {
-    await driver.quit();
-  });
+    after(async function () {
+        await driver.quit();
+    });
 
-  it('Debe mostrar mensajes de error al dejar campos vacíos', async () => {
-    await driver.get('http://127.0.0.1:3000/ProyectoFinal/pages/HTML/contacto.html'); 
+    it("Debería enviar el formulario y mostrar una alerta con el mensaje correcto", async function () {
+        try {
+            // Navegar a la página de contacto
+            await driver.get("http://127.0.0.1:3000/ProyectoFinal/pages/HTML/contacto.html");
 
-    const nombreInput = await driver.findElement(By.id('nombre'));
-    const correoInput = await driver.findElement(By.id('email'));
-    const mensajeInput = await driver.findElement(By.id('mensaje'));
-    const checkbox = await driver.findElement(By.id('terminos'));
-    const botonEnviar = await driver.findElement(By.id('enviar-contacto'));
+            // Llenar el formulario
+            await driver.findElement(By.id("nombre")).sendKeys("Alejandra Moreno");
+            await driver.findElement(By.id("email")).sendKeys("ale.moreno@gmail.com");
+            await driver.findElement(By.css("textarea")).sendKeys("Hola, quiero más información!");
 
-    await botonEnviar.click();
+            // Marcar el checkbox
+            await driver.findElement(By.css("input[type='checkbox']")).click();
 
-    await driver.sleep(1000); 
+            // Enviar el formulario
+            await driver.findElement(By.css("button[type='submit']")).click();
 
-    const mensajeErrorNombre = await driver.findElement(By.(''));
-    const mensajeErrorCorreo = await driver.findElement(By.(''));
-    const mensajeErrorMensaje = await driver.findElement(By.(''));
+            // Esperar a que aparezca la alerta
+            await driver.wait(until.alertIsPresent(), 5000);
 
-    assert.ok(mensajeErrorNombre.isDisplayed(), 'Completa este campo');
-    assert.ok(mensajeErrorCorreo.isDisplayed(), 'Completa este campo');
-    assert.ok(mensajeErrorMensaje.isDisplayed(), 'Completa este campo');
+            // Obtener el texto de la alerta
+            let alerta = await driver.switchTo().alert();
+            let mensajeAlerta = await alerta.getText();
 
+            // Verificar el mensaje de la alerta
+            assert.strictEqual(
+                mensajeAlerta,
+                "Recibimos tu mensaje, pronto te contactaremos!",
+                "❌ Test fallido: El mensaje en la alerta es incorrecto."
+            );
 
-  });
+            console.log("✅ Test exitoso: La alerta tiene el mensaje esperado.");
+
+            // Aceptar la alerta
+            await alerta.accept();
+        } catch (error) {
+            console.error("❌ Error en la prueba:", error);
+            throw error; // Lanzar el error para que la prueba falle
+        }
+    });
 });
