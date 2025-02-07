@@ -1,0 +1,9 @@
+<h1>Hola {{ customer.name}}</h1>
+<p>{{ customer | customerName }}</p>
+<div class="accounts">
+  <div class="balance-sum">
+    <span>Saldo total en cuentas</span>
+    <span class="balance">{{ customer.accounts | accountsBalance | currency }} MXN</span>
+  </div>
+  <account-card *ngFor="let account of customer.accounts" [account]="account"></account-card>
+</div>

@@ -1,0 +1,22 @@
+{
+    "name": "Alejandra",
+    "lastName": "Moreno",
+    "customerId": "4859632159",
+    "email": "ale@gmail.com",
+    "accounts": [
+        {
+            "accountId": "5206341",
+            "customerId": "12345698",
+            "accountName": "Cuenta de ahorros",
+            "balance": "50000",
+            "transactions": []
+        },
+        {
+            "accountId": "45812375",
+            "customerId": "20205893",
+            "accountName": "Cuenta Nomina",
+            "balance": "250000",
+            "transactions":[]
+        }
+    ]
+}

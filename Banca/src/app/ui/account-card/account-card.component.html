@@ -1,0 +1,10 @@
+<div class="account">
+    <div class="image-container">
+      <img src="/assets/img/card.webp" [alt]="account?.accountId">
+    </div>
+    <div class="info">
+      <span class="balance">{{ account?.balance | currency }}</span>
+      <span>{{ account?.accountName }}</span>
+      <span>{{ account?.accountId }}</span>
+    </div>
+  </div>

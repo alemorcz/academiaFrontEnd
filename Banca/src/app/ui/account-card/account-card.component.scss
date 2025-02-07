@@ -1,0 +1,22 @@
+.account {
+    width: 100%;
+    display: flex;
+    padding: 20px;
+    .image-container {
+      width: 150px;
+      padding-right: 20px;
+      img {
+        width: 100%;
+      }
+    }
+    .info {
+      display: flex;
+      flex-direction: column;
+      font-weight: 200;
+      text-transform: uppercase;
+      .balance {
+        font-weight: 600;
+        font-size: 20px;
+      }
+    }
+  }
